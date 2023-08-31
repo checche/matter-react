@@ -1,6 +1,6 @@
 /** https://www.fabiofranchino.com/blog/how-to-use-matter-js-in-react-functional-component/ */
 
-import {Engine, Bodies,  Render, World, Runner} from "matter-js"
+import {Engine, Bodies,  Render, Composite, Runner} from "matter-js"
 
 import { useEffect, useRef, } from "react"
 
@@ -26,7 +26,7 @@ export function Comp(){
     })
 
     // boundaries
-    World.add(engine.current.world, [
+    Composite.add(engine.current.world, [
       Bodies.rectangle(cw / 2, -10, cw, 20, { isStatic: true }),
       Bodies.rectangle(-10, ch / 2, 20, ch, { isStatic: true }),
       Bodies.rectangle(cw / 2, ch + 10, cw, 20, { isStatic: true }),
@@ -41,9 +41,10 @@ export function Comp(){
     return () => {
       // destroy Matter
       Render.stop(render)
-      World.clear(engine.current.world)
+      Composite.clear(engine.current.world,true)
       Engine.clear(engine.current)
       render.canvas.remove()
+      console.log(render.canvas)
       render.canvas = null
       render.context = null
       render.textures = {}
@@ -74,7 +75,7 @@ export function Comp(){
             fillStyle: '#0000ff'
           }
         })
-      World.add(engine.current.world, [ball])
+      Composite.add(engine.current.world, [ball])
     }
   }
 
